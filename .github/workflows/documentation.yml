@@ -14,7 +14,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x' # You can specify the Python version that you need for MkDocs.
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
