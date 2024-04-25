@@ -1,18 +1,28 @@
-name: Custom Workflow
+name: Custom Workflow 
 
 on:
   release:
     types: [created]
 
 jobs:
-  release-notes:
+  generate-release-notes:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Generate Release Notes
-      uses: github-tools/github-release-notes@main
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
+      - name: Generate Release Notes
+        run: |
+          # Custom script to generate release notes
+          echo "## Release Notes" > release_notes.md
+          echo "- This is a placeholder for release notes" >> release_notes.md
+          echo "- You can customize this script to generate actual release notes" >> release_notes.md
+          cat release_notes.md
 
-      with:
-        token: ${{ secrets.TOKEN_GITHUB }}
-        tag_name: ${{ github.ref }}
+      - name: Commit Release Notes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add release_notes.md
+          git commit -m "Generate release notes for release ${GITHUB_REF}"
+          git push origin HEAD:main
